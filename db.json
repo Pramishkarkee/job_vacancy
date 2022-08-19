@@ -1,0 +1,11 @@
+{
+  "default": {
+      "ENGINE": "django.db.backends.postgresql",
+      "NAME": "job_vacation",
+      "USER": "postgres",
+      "PASSWORD": "root1234",
+      "HOST": "localhost",
+      "PORT": "5432"
+  }
+}
+

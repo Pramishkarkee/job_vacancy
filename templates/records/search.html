@@ -1,0 +1,88 @@
+{% extends 'records/base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block search %}
+
+
+{% endblock search %}
+
+{% block content %}
+    <style type="text/css">
+        .fix-margin-form{
+            margin-top:1.7rem;
+        }
+        .title-font{
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #000;
+        }
+        .table-row-font{
+            font-size: 1rem;
+            font-weight: light;
+            color: #000;
+        }
+    </style>
+
+    <section class="home-section section-hero inner-page overlay bg-image" 
+      style="background-image: url('images/hero_1.jpg');" id="home-section">
+  </section>
+
+<section class="home-section section-hero overlay bg-image"  style="background-image: url('../../images/hero_1.jpg');height:15vh; min-height:100px;" id="home-section">
+
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-12" style="height:90vh; min-height:100px;">
+            <div class="mb-5 text-center">
+              <h1 class="text-white font-weight-bold">Applicants</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+
+    <br> 
+    
+     <section class="site-section" style="padding-top:50px">
+     <div class="container">   
+
+
+
+    <div>    
+        {% csrf_token %} 
+        {% crispy form %} 
+    </div>
+
+    </div>
+    </section>
+
+
+
+     <section class="site-section" style="padding-top:0px">
+     <div class="container">
+      <table class="table">
+      <tr class="title-font">
+        <th class="col-md-2">Name</th>
+        <th class="col-md-4">Qualification</th>
+        <th class="col-md-4">Skills </th>
+        <th class="col-md-2">Category</th>
+      </tr>
+    {% for applicant in applicants %}
+        <tr class = "table-row-font">
+            <td class="col-md-2"><a href="{% url 'list_applicant_details' applicant.id.id %}">{{ applicant.id }}</a></td>
+            <td class="col-md-4">{{ applicant.qualification }}</td>
+            <td class="col-md-4">{% for i in applicant.skills.all %}{{ i.name }},&nbsp;{% endfor %}</td>
+            <td class="col-md-2">{% for i in applicant.interested_categories.all %}{{ i.name }},&nbsp;{% endfor %}</td>
+        </tr>
+    {% endfor %}
+    </table>    
+      </div>
+    </section>
+
+
+
+
+
+{% endblock content %}

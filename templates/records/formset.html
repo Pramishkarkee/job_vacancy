@@ -1,0 +1,32 @@
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{#{{ formset.management_form|crispy }}#}
+{##}
+{#{% crispy formset %}#}
+
+
+{{ formset.management_form|crispy }}
+{% for form in formset %}
+    {% crispy form %}
+{% endfor %}
+
+
+{##}
+{#<style type="text/css">#}
+{#    .delete-row {#}
+{#        align-self: center;#}
+{#    }#}
+{#</style>#}
+{##}
+{#{% for form in formset.forms %}#}
+{#{% for hidden in form.hidden_fields %}#}
+{#{{ hidden|as_crispy_field }}#}
+{#{% endfor %}#}
+{#<div class="row">#}
+{#    <p class="h5 py-3 col-auto" id="address-type-{{ forloop.counter0 }}"></p>#}
+{#    <div class="col-auto py-3 ml-3" id="checkbox-div-{{ forloop.counter0 }}"></div>#}
+{#</div>#}
+{#{% crispy form %}#}
+{#{% endfor %}#}

@@ -1,0 +1,171 @@
+{% extends 'records/base.html' %}
+
+
+{% load static %}
+
+
+{% block content %}
+    <!-- HOME -->
+
+    <section class="section-hero overlay inner-page bg-image"
+             style="background-image: url('../../images/hero_1.jpg');"
+             id="home-section">
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-md-7">#}
+{#                    <h1 class="text-white font-weight-bold">{{ job.position }}</h1>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+    </section>
+
+
+    <section class="site-section pt-5">
+        <div class="container">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <div class="d-flex align-items-center">
+                        <div class="border p-2 d-inline-block mr-3 rounded-circle">
+                            <img class="rounded-circle" src="{{ job.provider.id.profile_photo.url }}"
+                                 alt="Free Website Template By Free-Template.co" width="75" height="75">
+                        </div>
+                        <div>
+                            <h2>{{ job.position }}</h2>
+                            <div>
+                                <a href="{% url 'list_provider_details' job.provider.id.id %}" class="ml-0 mr-2 mb-2"><span
+                                        class="icon-briefcase mr-2"></span>{{ job.provider }}</a>
+                                <span class="m-2"><span class="icon-room mr-2"></span>{{ job.provider.address.vdc_municipality.district }}</span>
+                                <span class="m-2"><span class="icon-clock-o mr-2"></span><span
+                                        class="text-primary"> {% if job.ispartime %}Part Time{% else %}Full Time{% endif %}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        {% if request.user.is_authenticated and request.user.profile_type == 'A' %}
+                        <div class="col-6">
+                          <button id="applied-feedback" class="btn btn-block btn-success btn-md">Applied</button>
+                          <button id="apply-now-button" class="btn btn-block btn-primary btn-md">Apply Now</button>
+                          <a id="apply-link" href="{% url "apply_for_job" vacancy.id %}" style="display: none"></a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="mb-5">
+                        <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span
+                                class="icon-align-left mr-3"></span>
+                            Description</h3>
+                        <p style="color: #2a2a2a">{{ job.description }}</p>
+                    </div>
+
+
+                    <div class="mb-5">
+                        <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-book mr-3"></span>Experience
+                        </h3>
+                        <ul class="list-unstyled m-0 p-0" style="color: #2a2a2a">
+                            {% for i in job.min_required_experience.all %}
+                            <li class="d-flex align-items-start mb-2"><span
+                                    class="icon-check_circle mr-2 text-muted"></span>
+                                <span>{{ i }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+                    <div class="mb-5">
+                        <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span
+                                class="icon-align-left mr-3"></span>Skills
+                            </h3>
+                        <p>{% for i in job.required_skills.all %}
+                            <li style="color: #2a2a2a">{{ i.name }}&nbsp;
+                        {% endfor %}
+                        </p>
+                    </div>
+                <div class="mb-5">
+                  <figure class="mb-5"><a href="{{vacancy.notice_image.url}}"><img src="{{ vacancy.notice_image.url }}"
+                    alt="Free Website Template by Free-Template.co"
+                    class="img-fluid rounded"></a></figure>
+                  </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="bg-light p-3 border rounded mb-4">
+                        <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Summary</h3>
+                        <ul class="list-unstyled pl-3 mb-0">
+                          <li class="mb-2"><strong class="text-black">Published
+                                on:</strong> {{ vacancy.announced_date|timesince }} ago
+                          </li>
+                          <li class="mb-2"><strong class="text-black">Vacancy:</strong> {{ vacancy.num_vacancies }}</li>
+                          <li class="mb-2"><strong class="text-black">Employment
+                                Status:</strong> {% if vacancy.is_part_time %}Part Time{% else %}Full Time{% endif %}</li>
+                          <li class="mb-2"><strong class="text-black">Job Location:</strong> {{ job.provider.address.full_address }}</li>
+                          <li class="mb-2"><strong class="text-black">Allowance:</strong> {% if vacancy.allowance %}{{ vacancy.allowance }} {% else %}None{% endif %}</li>
+                          <li class="mb-2"><strong class="text-black">Application
+                              Deadline:</strong> {{ vacancy.deadline_date.date }}</li>
+                        </ul>
+                    </div>
+                    
+                    {% if request.user.is_authenticated and request.user.profile_type == 'P' and job.provider.id.id == request.user.id %}
+                    {% if vacancy.applications.all|length > 0 %}
+                    <div class="bg-light p-3 border rounded mb-4">
+                      <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Applicants</h3>
+                      <ul class="list-unstyled pl-3 mb-0">
+                        {% for applicant in vacancy.applications.all %}  
+                        <li class="row mb-2">
+                          <div class="col-sm-8">
+                            <strong class="text-black">{{ applicant.full_name }}</strong>
+                          </div>
+                          <div class="col-sm-4">
+                            <a href="{% url 'list_applicant_details' applicant.id.id %}" class="pt-3 pb-3 pr-3 pl-0 ml-2"><span class="icon-eye"></span></a>
+                            <a href="{{ applicant.cv.url }}" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-download"></span></a>
+                          </div>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+
+                    <div class="bg-light p-3 border rounded">
+                        <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Share</h3>
+                        <div class="px-3">
+                            <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-facebook"></span></a>
+                            <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-twitter"></span></a>
+                            <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-linkedin"></span></a>
+                            <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-pinterest"></span></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+
+
+{% block script %}
+{% if request.user.is_authenticated and request.user.profile_type == 'A' %}
+<script>
+  const applyNow = document.getElementById('apply-now-button');
+  const applied = document.getElementById('applied-feedback');
+  var hidden = false
+  '{% for applicant in vacancy.applications.all %}'
+  '{% if applicant.id == request.user %}'
+    var hidden = true
+    applyNow.style.display = 'none';
+  '{% endif %}'
+  '{% endfor %}'
+  if (!hidden) applied.style.display = 'none'
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.12.6/dist/sweetalert2.all.min.js"></script>
+<script src="{% static 'js/apply-modal.js' %}"></script>
+{% endif %}
+{% endblock script %}

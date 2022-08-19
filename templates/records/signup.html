@@ -1,0 +1,111 @@
+{% extends 'records/base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+{% comment %} {% block content %}
+
+    {% crispy form %}
+
+{% endblock content %} {% endcomment %}
+
+
+
+{% comment %}  {% endcomment %}
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% load bootstrap %}
+{% load static %} {% endcomment %}
+
+
+{% block content %}
+    <style> 
+    .asteriskField {
+        display: none;
+    }
+    </style>
+
+    <section class="home-section section-hero inner-page overlay bg-image"
+             style="background-image: url('images/hero_1.jpg');" id="home-section">
+        {% comment %} <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="mb-5 text-center">
+
+                        <h2 class="text-white font-weight-bold">Not our registered yet?</h2>
+                        <p>If you have any questions, please feel free to contact us,
+                            our customer service center is working for you 24/7.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+    </section>
+
+
+    <section class="site-section" id="next-section" style="padding-top:2rem; padding-bottom:2rem;">
+        <div class="container">
+            <div class="col mb-5 mb-lg-0">
+                <center><h3 style="margin-top:2rem; margin-bottom:0.3rem">Sign Up</h3></center>
+            </div>
+            <div class="row">
+
+                <div class="col mb-5 mb-lg-0">
+                    {% csrf_token %}
+
+                        {% comment %} {{ form|bootstrap }} {% endcomment %}
+                        {% crispy form %}
+
+                        {% comment %} <div class="row form-group">
+                            <div class="col-md-12">
+                                <input type="submit" value="Sign Up" class="btn btn-primary btn-md text-white">
+                            </div>
+                        </div> {% endcomment %}
+
+                </div>
+
+                {% comment %} <div class="col-lg-5 ml-auto">
+                    <div class="p-4 mb-3 bg-white">
+
+                        <img src="{% static 'images/sq_img_3.jpg' %}" alt="Image" class="img-fluid mb-4 rounded">
+
+                    </div>
+                </div> {% endcomment %}
+
+            </div>
+          </div>
+      </div>
+
+      {% comment %}
+      <div class="col-lg-5 ml-auto">
+        <div class="p-4 mb-3 bg-white">
+          <img
+            src="{% static 'images/sq_img_3.jpg' %}"
+            alt="Image"
+            class="img-fluid mb-4 rounded"
+          />
+        </div>
+      </div>
+      {% endcomment %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block script %}
+<script>
+const profileType = '{{ profile_type }}';
+if (profileType === 'provider') {
+  document.getElementById('div_id_last_name').style.display = 'none';
+  document.getElementById('div_id_first_name').childNodes[1].innerText = 'Name';
+}
+
+const buttons = document.getElementById('login-signup');
+buttons.classList.remove('d-flex');
+buttons.style.display = 'none';
+</script>
+{% endblock script %}

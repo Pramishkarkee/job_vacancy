@@ -1,0 +1,39 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+<style type="text/css">
+  .delete-row {
+    margin-top: 19px;
+    align-self: center;
+    padding-left: 10px;
+  }
+  .fix {
+    margin-left: 0;
+    padding-right: 0;
+  }
+  .fix-add-button {
+    margin-left: 2rem;
+  }
+
+</style>
+
+{{ formset.management_form|crispy }}
+
+{% for form in formset.forms %}
+  {% for hidden in form.hidden_fields %}
+    {{ hidden|as_crispy_field }}
+  {% endfor %}
+  {% crispy form %}
+{% endfor %}
+
+<br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $('.formset-row-{{ formset.prefix }}').formset({
+        //addText: '<p class="form-control" style="color:#000">Add Role</p>',
+        addText: '<button id="add-row-button" class="btn btn-dark fix-add-button">Add Field</button>',
+        deleteText: '<button id="delete-row-button" class="btn btn-danger">-</button>',
+        prefix: '{{ formset.prefix }}',
+    });
+</script>

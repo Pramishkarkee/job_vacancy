@@ -1,0 +1,98 @@
+{% extends 'records/base.html' %}
+{% load static %}
+
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+  <style> 
+    .asteriskField {
+        font-weight: lighter;
+    }
+  </style>
+
+  <section class="home-section section-hero inner-page overlay bg-image" 
+      style="background-image: url('../../static/images/hero_1.jpg');" id="home-section">
+  </section>
+
+  <section class="site-section" id="next-section" style="padding-top:2rem; padding-bottom:2rem;">
+      <div class="container">
+          <div class="col mb-5 mb-lg-0">
+              <center><h3 style="margin-top:2rem; margin-bottom:0.3rem">Registration Form</h3></center>
+          </div>
+          <div class="row">
+
+              <div class="col mb-5 mb-lg-0">
+                  {% csrf_token %}
+
+                      {% comment %} {{ form|bootstrap }} {% endcomment %}
+                      {% crispy form %}
+
+                      {% comment %} <div class="row form-group">
+                          <div class="col-md-12">
+                              <input type="submit" value="Sign Up" class="btn btn-primary btn-md text-white">
+                          </div>
+                      </div> {% endcomment %}
+
+
+
+              </div>
+
+              {% comment %} <div class="col-lg-5 ml-auto">
+                  <div class="p-4 mb-3 bg-white">
+
+                      <img src="{% static 'images/sq_img_3.jpg' %}" alt="Image" class="img-fluid mb-4 rounded">
+
+                  </div>
+              </div> {% endcomment %}
+
+          </div>
+      </div>
+  </section>
+
+
+{% endblock content %}
+
+{% block script %}
+{% if request.user.profile_type == 'A' %}
+  <script src="{% static 'js/address-user.js' %}"></script>
+  <script>
+    var currentCountryValue = '{{ applicant.temporary_address.vdc_municipality.district.province.country }}';
+    var currentProvinceValue = '{{ applicant.temporary_address.vdc_municipality.district.province }}';
+    var currentDistrictValue = '{{ applicant.temporary_address.vdc_municipality.district }}';
+    var currentVdcValue = '{{ applicant.temporary_address.vdc_municipality }}';
+    var currentWardNoValue = '{{ applicant.temporary_address }}';
+    
+    var permanentCountryValue = '{{ applicant.permanent_address.vdc_municipality.district.province.country }}';
+    var permanentProvinceValue = '{{ applicant.permanent_address.vdc_municipality.district.province }}';
+    var permanentDistrictValue = '{{ applicant.permanent_address.vdc_municipality.district }}';
+    var permanentVdcValue = '{{ applicant.permanent_address.vdc_municipality }}';
+    var permanentWardNoValue = '{{ applicant.permanent_address }}';
+  
+    var roles = [];
+    var noOfYears = [];
+  
+    "{% for experience in applicant.experience.all %}"
+      roles.push('{{ experience.role }}')
+      noOfYears.push('{{ experience.no_of_years }}')
+    "{% endfor %}"
+  </script>
+
+{% elif request.user.profile_type == 'P' %}
+  <script src="{% static 'js/address-provider.js' %}"></script>
+  <script>
+    var countryValue = '{{ provider.address.vdc_municipality.district.province.country }}';
+    var provinceValue = '{{ provider.address.vdc_municipality.district.province }}';
+    var districtValue = '{{ provider.address.vdc_municipality.district }}';
+    var vdcValue = '{{ provider.address.vdc_municipality }}';
+    var wardNoValue = '{{ provider.address }}';
+  </script>
+{% endif %}
+<script>
+  const buttons = document.getElementById('register-user');
+  buttons.classList.remove('d-flex');
+  buttons.style.display = 'none';
+</script>
+{% endblock script %}

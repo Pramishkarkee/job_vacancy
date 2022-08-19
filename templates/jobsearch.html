@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block search %}
+
+    {% crispy form %}
+
+{% endblock search %}
+
+{% block content %}
+    <br>
+    <div class="row">
+    <div class="col-md">
+    <div class="card card-body">
+        <h5>Jobs</h5>
+    </div>
+    <div class="card card-body">
+    <table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Provider</th>
+        <th>Quallification</th>
+        <th>Skills </th>
+        <th>Category</th>
+    </tr>
+    {% for job in jobs %}
+        <tr>
+            <td>{{ job.name }}</td>
+            <td>{{ job.provider }}</td>
+            <td>{{ job.min_qualification }}</td>
+            <td>{% for i in job.required_skills.all %}{{ i.name }},&nbsp;{% endfor %}</td>
+            <td>{{ job.category }}</td>
+        </tr>
+    {% endfor %}
+    </div>
+    </div>
+    </div>
+
+
+{% endblock content %}
