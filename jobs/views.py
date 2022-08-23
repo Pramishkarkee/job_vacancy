@@ -16,13 +16,12 @@ from .models import Job, Vacancy
 @check_permission(profiletype="P")
 def jobRegister(request):
     if request.method == "POST":
-        print(request.POST)
+
         jobForm = JobRegistrationForm(request.POST)
         qualificationForm = QualificationFormset(request.POST, prefix="qualification")
         experienceForm = JobExperienceFormset(request.POST, prefix="experience")
-        print(jobForm.errors)
-        print(qualificationForm.errors)
-        print((experienceForm.errors))
+
+
         if (
             jobForm.is_valid()
             and qualificationForm.is_valid()
@@ -197,7 +196,7 @@ def updateVacancy(request, id):
 # @check_permission(profiletype='V')
 def searchjobsview(request):
     context = {}
-    print(request.GET)
+
     if request.method == "POST":
         level = request.POST["Level"]
         skill = request.POST["Skill"]
@@ -283,10 +282,7 @@ def providerHome(request):
 
 
 def home(request):
-    print(request.user.is_authenticated)
     if request.user.is_authenticated and request.user.profile_type == "P":
-        print(request.user.profile_type)
-        print("Here")
         return providerHome(request)
     return searchjobsview(request)
 

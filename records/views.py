@@ -150,17 +150,17 @@ def applicantSignup(request):
 
 
 @login_required(login_url="login")
-@check_permission(profiletype="P")
+# @check_permission(profiletype="P")
 def providerSignup(request):
+    print("********",request.user.is_registered)
     if request.user.is_registered:
         return redirect("search")
 
     context = {}
     if request.method == "POST":
-        print(request.POST)
         providerForm = ProviderRegistrationForm(request.POST)
         addressForm = AddressFormset(request.POST, prefix="address")
-        print(providerForm.errors)
+        print(providerForm.is_valid())
         if providerForm.is_valid():
             provider = providerForm.save(commit=False)
             address = addressForm.cleaned_data[0]["ward_number"]
@@ -169,7 +169,8 @@ def providerSignup(request):
             user = request.user
             provider.id = user
             provider.address = address
-            provider.is_registered = True
+            user.is_registered = True
+            user.save()
             provider.save()
             providerForm.save_m2m()
             if category_field:

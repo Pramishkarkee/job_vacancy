@@ -16,11 +16,12 @@ def search_view(request):
         level = request.POST["level"]
         skill = request.POST["Skill"]
         category = request.POST["Category"]
-        print(request.POST)
         if level:
             query_qualification_level = Qualification.objects.filter(level=level)
         else:
             query_qualification_level = Qualification.objects.all()
+
+
         applicants = []
         for item in query_qualification_level:
             qual_id = item.id

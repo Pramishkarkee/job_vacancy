@@ -30,7 +30,7 @@
       <nav class="mx-auto site-navigation">
         <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
           <li><a href="{% url 'home' %}" class="nav-link active">Home</a></li>
-          <li><a href="{% url 'job_search' %}">Job Listings</a></li>
+{#          <li><a href="{% url 'job_search' %}">Job Listings</a></li>#}
           {% if request.user.is_authenticated and request.user.profile_type == 'P' %}
           <li><a href="{% url 'search' %}">Applicant Listings</a></li>
           {% else %}
@@ -93,12 +93,12 @@
           </div>
           <div class="ml-3">
             <ul class="nav nav-tabs" style="border-bottom:0px;">
-                <a class="btn btn-primary" href="{% url 'signup' 'applicant' %}">Sign Up as Applicant</a>
+                <a class="btn btn-primary" href="{% url 'signup' 'applicant' %}">SignUp as Applicant</a>
               </ul>
           </div>
           <div class="ml-3">
             <ul class="nav nav-tabs" style="border-bottom:0px;">
-                <a class="btn btn-primary" href="{% url 'signup' 'provider' %}">Sign Up as Provider</a>
+                <a class="btn btn-primary" href="{% url 'signup' 'provider' %}">SignUp as Provider</a>
               </ul>
             </div>
           </div>

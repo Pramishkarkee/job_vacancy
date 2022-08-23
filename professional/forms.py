@@ -34,7 +34,7 @@ class QualificationForm(forms.ModelForm):
     )
 
     field = forms.ChoiceField(
-        # choices=fields_choices,
+        choices=fields_choices,
         widget=forms.Select(),
         label="Major",
     )
@@ -153,10 +153,10 @@ class ExperienceForm(forms.Form):
     roles_choices = (("", "(Select Role)"),) + tuple(
         [(role, role) for role in current_roles]
     )
-
+    print(roles_choices)
     role = forms.ChoiceField(
         widget=forms.Select(),
-        # choices=roles_choices,
+        choices=roles_choices,
         label="Role",
     )
     no_of_years = forms.IntegerField(widget=forms.TextInput(), label="No. of Years")
